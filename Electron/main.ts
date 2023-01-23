@@ -18,8 +18,8 @@ async function createWindow() {
             devTools: isDev,
         },
         show: false,
-        alwaysOnTop: true,
-        frame: true,
+        alwaysOnTop: false,
+        frame: false,
     };
 
     if (appBounds !== undefined && appBounds !== null) Object.assign(BrowserWindowOptions, appBounds);
@@ -54,6 +54,19 @@ async function createWindow() {
             version: app.getVersion(),
             name: app.getName(),
         };
+    });
+
+    ipcMain.handle('systemClose', () => {
+        app.quit();
+        console.log('lol');
+    });
+
+    ipcMain.handle('systemMinimize', () => {
+        mainWindow.minimize();
+    });
+
+    ipcMain.handle('systemMaximizeToggle', () => {
+        mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
     });
 }
 

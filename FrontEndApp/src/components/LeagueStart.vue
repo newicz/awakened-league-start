@@ -1,5 +1,6 @@
 <template>
     <div>
+        <v-app-bar :elevation="2"></v-app-bar>
         <v-alert type="success">I'm a success alert.</v-alert>
         <p>league start</p>
     </div>
