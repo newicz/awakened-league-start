@@ -1,31 +1,28 @@
 <template>
   <div>
       <v-layout>
+
         <v-system-bar color="blue-grey-darken-4" window>
           <v-icon icon="mdi-image-filter-drama" class="me-2"></v-icon>
-    
           <span>Awakened League Start</span>
-    
+
           <v-spacer></v-spacer>
+
           <div class="v-system-bar-controls">
             <v-btn @click="systemMinimize" id="system-minimize-button" icon="mdi-minus" size="x-small" variant="text"></v-btn>
             <v-btn @click="systemMaximize" id="system-maximize-button" icon="mdi-checkbox-blank-outline" size="x-small" variant="text" class="ms-2"></v-btn>
             <v-btn @click="systemClose" id="system-close-button" icon="mdi-close" variant="text" size="x-small" class="ms-2"></v-btn>
           </div>
         </v-system-bar>
-        <v-app-bar color="primary" density="compact">
-          <template v-slot:prepend>
-            <v-btn v-if="collapsed" icon="mdi-chevron-right" @click="collapsed = !collapsed"></v-btn>
-            <v-btn v-if="!collapsed" icon="mdi-chevron-left" @click="collapsed = !collapsed"></v-btn>
-          </template>
-          <template v-slot:append>
-            <v-btn icon="mdi-heart"></v-btn>
-            <v-btn icon="mdi-magnify"></v-btn>
-            <v-btn icon="mdi-dots-vertical"></v-btn>
-          </template>
-        </v-app-bar>
 
         <v-navigation-drawer :rail="collapsed">
+          <v-list class="mb-1 mt-1" density="compact" nav>
+            <v-list-item v-if="collapsed" prepend-icon="mdi-chevron-right" @click="collapsed = !collapsed"></v-list-item>
+            <v-list-item v-if="!collapsed" append-icon="mdi-chevron-left" @click="collapsed = !collapsed"></v-list-item>
+          </v-list>
+
+          <v-divider></v-divider>
+
           <v-list density="compact" nav>
             <v-list-item prepend-icon="mdi-folder" title="My Files" value="myfiles"></v-list-item>
             <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item>
@@ -34,6 +31,12 @@
         </v-navigation-drawer>
 
         <v-main>
+          <v-toolbar prominent class="toolbar">
+            <v-spacer></v-spacer>
+            <v-btn icon="mdi-heart"></v-btn>
+            <v-btn icon="mdi-magnify"></v-btn>
+          </v-toolbar>
+
           <v-container>LOL</v-container>
         </v-main>
 
@@ -43,7 +46,6 @@
 
 <script lang="ts">
 import LeagueStart from './components/LeagueStart.vue'
-
 
 export default {
   data() {
@@ -84,5 +86,11 @@ export default {
 
 .v-system-bar-controls {
   -webkit-app-region: no-drag;
+}
+
+.toolbar {
+  background: rgb(10,88,134);
+  background: linear-gradient(90deg, rgba(10,88,134,1) 0%, rgba(1,163,186,1) 25%, rgba(1,117,186,1) 61%, rgba(1,154,186,1) 100%);
+  color: white;
 }
 </style>
