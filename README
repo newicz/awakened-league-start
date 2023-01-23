@@ -1,0 +1,17 @@
+# Requirements
+
+* `node`
+* `npm`
+* `yarn`
+
+# Installation
+
+1. `git clone`
+2. `yarn install`
+3. `cd FrontEndApp`
+4. `yarn install`
+5. `cd ..`
+
+## Starting
+
+`yarn start`
