@@ -1,5 +1,6 @@
 <template>
     <div>
+        <v-alert type="success">I'm a success alert.</v-alert>
         <p>league start</p>
     </div>
 </template>
