@@ -28,6 +28,37 @@ async function createWindow() {
     // auto updated
     if (!isDev) AppUpdater();
 
+
+    ipcMain.handle('versions', () => {
+        return {
+            node: process.versions.chrome,
+            chrome: process.versions.chrome,
+            electron: process.versions.electron,
+            version: app.getVersion(),
+            name: app.getName(),
+        };
+    });
+
+    ipcMain.handle('systemClose', () => {
+        app.quit();
+    });
+
+    ipcMain.handle('systemMinimize', () => {
+        mainWindow.minimize();
+    });
+
+    ipcMain.handle('systemMaximizeToggle', () => {
+        mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+    });
+
+    ipcMain.handle('getConfig', (event, key) => {
+        return appConfig.get(key)
+    });
+
+    ipcMain.handle('setConfig', (event, key, value) => {
+        appConfig.set(key, value)
+    });
+
     // and load the index.html of the app.
     // win.loadFile("index.html");
     await mainWindow.loadURL(isDev ? "http://localhost:3000" : `file://${path.join(__dirname, "./index.html")}`);
@@ -44,30 +75,6 @@ async function createWindow() {
     if (isDev) {
         mainWindow.webContents.openDevTools();
     }
-
-
-    ipcMain.handle('versions', () => {
-        return {
-            node: process.versions.chrome,
-            chrome: process.versions.chrome,
-            electron: process.versions.electron,
-            version: app.getVersion(),
-            name: app.getName(),
-        };
-    });
-
-    ipcMain.handle('systemClose', () => {
-        app.quit();
-        console.log('lol');
-    });
-
-    ipcMain.handle('systemMinimize', () => {
-        mainWindow.minimize();
-    });
-
-    ipcMain.handle('systemMaximizeToggle', () => {
-        mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
-    });
 }
 
 // This method will be called when Electron has finished

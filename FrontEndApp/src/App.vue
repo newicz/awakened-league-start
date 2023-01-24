@@ -8,7 +8,7 @@
         <v-main>
           <Toolbar></Toolbar>
           <v-container>
-              <component :is="currentView" />
+            <component :is="currentView" />
           </v-container>
         </v-main>
 
@@ -22,6 +22,7 @@ import Navigation from './components/layout/Navigation.vue'
 import Toolbar from './components/layout/Toolbar.vue'
 
 import Router from './router/router'
+import Settings from './settings/settings'
 
 export default {
   components: {
@@ -37,9 +38,7 @@ export default {
       return Router.view(this.activeRoute)
     }
   },
-  methods: {
-  },
-  mounted() {
+  mounted() {    
     window.addEventListener('hashchange', () => {
       this.activeRoute = window.location.hash
     })

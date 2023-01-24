@@ -20,8 +20,8 @@ export default {
     computed: {
         settings() {
             return {
-                accountName: store.getPoeAccountName(),
-                characterName: store.getPoeCharacterName(),
+                accountName: store.poeAccount,
+                characterName: store.poeCharacterName,
             }
         }
     },
