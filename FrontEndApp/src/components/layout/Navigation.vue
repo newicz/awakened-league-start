@@ -8,7 +8,7 @@
         <v-divider></v-divider>
 
         <v-list nav>
-            <v-list-item v-for="item in items" :href="item.route" :key="item.route" :prepend-icon="item.icon" :title="item.title" :value="item.value" />
+            <v-list-item v-for="item in items" :href="item.route" :key="item.route" :prepend-icon="item.icon" :title="item.title" :value="item.value" :active="activeItem == item.route ? true : false" />
         </v-list>
     </v-navigation-drawer>
 </template>
@@ -22,8 +22,14 @@ export default {
                 { value: 'campaing', title: 'Campaign', icon: 'mdi-plus-circle-multiple-outline', route: '#/' },
                 { value: 'heist', title: 'Infinite Heist', icon: 'mdi-all-inclusive', route: '#/heist' },
                 { value: 'settings', title: 'Settings', icon: 'mdi-cog-transfer', route: '#/settings' },
-            ]
+            ],
+            activeItem: window.location.hash
         }
+    },
+    mounted() {
+        window.addEventListener('hashchange', () => {
+            this.activeItem = window.location.hash
+        })
     }
 }
 </script>

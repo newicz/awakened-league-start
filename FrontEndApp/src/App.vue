@@ -39,7 +39,7 @@ export default {
     Toolbar,
     LeagueStart
   },
-  data () {
+  data() {
     return {
       activeRoute: window.location.hash
     }
@@ -57,7 +57,6 @@ export default {
   mounted() {
     window.addEventListener('hashchange', () => {
       this.activeRoute = window.location.hash
-      console.log(this.activeRoute)
     })
 
     this.routeTo('#/settings')
