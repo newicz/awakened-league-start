@@ -21,13 +21,13 @@ import SystemBar from './components/layout/SystemBar.vue'
 import Navigation from './components/layout/Navigation.vue'
 import Toolbar from './components/layout/Toolbar.vue'
 
-import LeagueStart from './views/LeagueStart.vue'
+import Campaign from './views/Campaign.vue'
 import InfiniteHeist from './views/InfiniteHeist.vue'
 import NotFound from './views/NotFound.vue'
 import Settings from './views/Settings.vue'
 
 const routes = {
-  '/': LeagueStart,
+  '/': Campaign,
   '/heist': InfiniteHeist,
   '/settings': Settings
 }
@@ -36,14 +36,11 @@ export default {
   components: {
     SystemBar,
     Navigation,
-    Toolbar,
-    LeagueStart
+    Toolbar
   },
-  data() {
-    return {
-      activeRoute: window.location.hash
-    }
-  },
+  data: () => ({
+    activeRoute: window.location.hash
+  }),
   computed: {
     currentView ():any {
       return routes[this.activeRoute.slice(1) || '/'] || NotFound
