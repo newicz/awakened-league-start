@@ -21,16 +21,7 @@ import SystemBar from './components/layout/SystemBar.vue'
 import Navigation from './components/layout/Navigation.vue'
 import Toolbar from './components/layout/Toolbar.vue'
 
-import Campaign from './views/Campaign.vue'
-import InfiniteHeist from './views/InfiniteHeist.vue'
-import NotFound from './views/NotFound.vue'
-import Settings from './views/Settings.vue'
-
-const routes = {
-  '/': Campaign,
-  '/heist': InfiniteHeist,
-  '/settings': Settings
-}
+import Router from './router/router'
 
 export default {
   components: {
@@ -43,20 +34,15 @@ export default {
   }),
   computed: {
     currentView ():any {
-      return routes[this.activeRoute.slice(1) || '/'] || NotFound
+      return Router.view(this.activeRoute)
     }
   },
   methods: {
-    routeTo(route: string) {
-      window.location.hash = route
-    }
   },
   mounted() {
     window.addEventListener('hashchange', () => {
       this.activeRoute = window.location.hash
     })
-
-    this.routeTo('#/settings')
   }
 }
 </script>

@@ -14,16 +14,23 @@
 </style>
 
 <script lang="ts">
+import { store } from '../store/store'
+
 export default {
     data() {
         return {
-            poeAccount: '',
-            poeCharacter: '',
-            poeDir: '',
+            poeAccount: store.getPoeAccountName(),
+            poeCharacter: store.getPoeCharacterName(),
+            poeDir: store.getPoeDir(),
             errorMessage: '',
             showErrorMessage: false,
             loading: false
         }
+    },
+    mounted() {
+        this.poeAccount = store.getPoeAccountName()
+        this.poeCharacter = store.getPoeCharacterName()
+        this.poeDir = store.getPoeDir()
     },
     methods: {
         submit() {
@@ -34,6 +41,10 @@ export default {
                 this.showErrorMessage = true
                 return
             }
+
+            store.setPoeAccount(this.poeAccount)
+            store.setPoeCharacter(this.poeCharacter)
+            store.setPoeDir(this.poeDir)
 
             this.loading = true
 

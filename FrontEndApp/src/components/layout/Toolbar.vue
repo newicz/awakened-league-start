@@ -1,7 +1,9 @@
 <template>
     <v-toolbar prominent class="toolbar">
         <v-spacer></v-spacer>
-        <div>Name: <strong>AmongUsTrickster</strong></div>
+        <div>Account: <strong>{{ settings.accountName }}</strong></div>
+        <v-divider vertical class="ml-10 mr-10"></v-divider>
+        <div>Character: <strong>{{ settings.characterName }}</strong></div>
         <v-divider vertical class="ml-10 mr-10"></v-divider>
         <div>Level: <strong>68</strong></div>
         <v-divider vertical class="ml-10 mr-5"></v-divider>
@@ -9,6 +11,23 @@
         <v-btn icon="mdi-magnify"></v-btn>
     </v-toolbar>
 </template>
+
+<script lang="ts">
+import { store } from '../../store/store'
+
+export default {
+    data: () => ({}),
+    computed: {
+        settings() {
+            return {
+                accountName: store.getPoeAccountName(),
+                characterName: store.getPoeCharacterName(),
+            }
+        }
+    },
+}
+
+</script>
 
 <style scoped>
 .toolbar {
