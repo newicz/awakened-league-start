@@ -2,7 +2,7 @@
     <v-toolbar prominent class="toolbar">
         <v-spacer></v-spacer>
         <div>Name: <strong>AmongUsTrickster</strong></div>
-        <v-divider vertical class="ml-10 mr-5"></v-divider>
+        <v-divider vertical class="ml-10 mr-10"></v-divider>
         <div>Level: <strong>68</strong></div>
         <v-divider vertical class="ml-10 mr-5"></v-divider>
         <v-btn icon="mdi-heart"></v-btn>
