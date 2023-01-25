@@ -1,8 +1,10 @@
 import { app, BrowserWindow, BrowserWindowConstructorOptions, ipcMain, screen } from "electron";
 import path from "path";
+import fs from 'fs';
 import { isDev } from "./config";
 import { appConfig } from "./ElectronStore/Configuration";
 import AppUpdater from "./AutoUpdate";
+import readLastLines from 'read-last-lines';
 
 async function createWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -28,7 +30,6 @@ async function createWindow() {
 
     // auto updated
     if (!isDev) AppUpdater();
-
 
     ipcMain.handle('versions', () => {
         return {
@@ -58,6 +59,14 @@ async function createWindow() {
 
     ipcMain.handle('setConfig', (event, key, value) => {
         appConfig.set(key, value)
+    });
+
+    ipcMain.handle('startWatchingPoeLogFile', (event, filePath: string) => {
+        fs.watchFile(filePath, function(event, filename) {
+            readLastLines.read(filePath, 1).then((line) => {
+                mainWindow.webContents.send('poe-log-file-updated', line)
+            })
+        });
     });
 
     // and load the index.html of the app.
@@ -98,6 +107,7 @@ app.whenReady().then(async () => {
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
+
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

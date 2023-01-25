@@ -4,6 +4,13 @@
         <div>Account: <strong>{{ account }}</strong></div>
         <v-divider vertical class="ml-10"></v-divider>
         <div class="select-container"><v-select @update:model-value="select" :items="characters" item-title="name" class="select"></v-select></div>
+        <v-btn @click="refreshCharacters" stacked prepend-icon="mdi-refresh-circle" :loading="refreshLoading">
+            <template v-slot:loader>
+                <span class="custom-loader">
+                    <v-icon light>mdi-cached</v-icon>
+                </span>
+            </template>
+        </v-btn>
         <v-divider vertical class="mr-10"></v-divider>
         <div>Level: <strong>{{ level }}</strong></div>
         <v-divider vertical class="ml-10 mr-5"></v-divider>
@@ -13,10 +20,13 @@
 </template>
 
 <script lang="ts">
+import { PoeApiService } from '../../service/ApiService';
 import { store } from '../../store/store';
 
 export default {
-    data: () => ({}),
+    data: () => ({
+        refreshLoading: false
+    }),
     computed: {
         account() {
             return store.account
@@ -25,18 +35,30 @@ export default {
             return store.characters
         },
         level() {
-            if (!store.character || !store.character.hasOwnProperty('level')) { 
+            const character: Character = store.character as Character
+            if (!character) { 
                 return 'n/a'
             }
 
-            return store.character.level
+            return character.level
         }
     },
     methods: {
         select(characterName: any) {
-            console.log(characterName)
-            store.setCharacter(store.characters.find((v) => v.name == characterName))
-            console.log(store.character)
+            store.setCharacter(store.characters.find((v) => v.name == characterName) as Character)
+        },
+        async refreshCharacters() {
+            this.refreshLoading = true
+
+            const characters = await PoeApiService.characters(store.account)
+
+            if (characters.length == 0) {
+                return
+            }
+            
+            store.setCharacters(characters)
+
+            this.refreshLoading = false
         }
     }
 }
@@ -53,5 +75,42 @@ export default {
     margin-top: 0%;
     width: 250px;
     height: 55px;
+}
+
+.custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+  }
+@-moz-keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@-webkit-keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@-o-keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 </style>

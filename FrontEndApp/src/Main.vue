@@ -13,11 +13,20 @@
 </template>
 
 <script lang="ts">
+declare global {
+    interface Window {
+        browserWindow:any;
+        electronApi:any;
+        appSettings:any;
+    }
+}
+
 import Loading from './Loading.vue'
 import App from './App.vue'
 import Settings from './settings/settings'
 import { PoeApiService } from './service/ApiService'
 import { store } from './store/store'
+import PoeLogService from './service/PoeLogService'
 
 export default {
     components: {
@@ -67,6 +76,14 @@ export default {
 
         store.setAccount(account)
         store.setCharacters(characters)
+
+        // Start watching file when we know what file to watch from settings
+        window.electronApi.startWatchingPoeLogFile(directory + PoeLogService.CLIENT_LOG_PATH)
+
+        // Recieve new line in CLient.txt log file
+        window.electronApi.onPoeLogFileUpdate((event: any, line: any) => {
+            PoeLogService.process(line)
+        })
 
         setTimeout(() => { this.loading = false }, 1000)
     }
