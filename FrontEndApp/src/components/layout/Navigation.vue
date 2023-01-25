@@ -20,11 +20,6 @@ export default {
     data() {
         return {
             collapsed: true,
-            items: [
-                { value: 'campaing', title: 'Campaign', icon: 'mdi-plus-circle-multiple-outline', route: '#/' },
-                { value: 'heist', title: 'Infinite Heist', icon: 'mdi-all-inclusive', route: '#/heist' },
-                { value: 'settings', title: 'Settings', icon: 'mdi-cog-transfer', route: '#/settings' },
-            ],
             routes: Router.ROUTES,
             activeItem: window.location.hash
         }
