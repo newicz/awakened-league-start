@@ -16,6 +16,7 @@ async function createWindow() {
         webPreferences: {
             preload: __dirname + "/preload.js",
             devTools: isDev,
+            webSecurity: false
         },
         show: false,
         alwaysOnTop: false,

@@ -22,7 +22,6 @@ import Navigation from './components/layout/Navigation.vue'
 import Toolbar from './components/layout/Toolbar.vue'
 
 import Router from './router/router'
-import Settings from './settings/settings'
 
 export default {
   components: {
