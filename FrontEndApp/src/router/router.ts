@@ -4,10 +4,10 @@ import NotFound from '../views/NotFound.vue'
 import Settings from '../views/Settings.vue'
 
 export default class Router {
-    private static ROUTES:Array<Route> = [
-        { id: 'campaign', path: '/', view: Campaign, default: true },
-        { id: 'heist', path: '/heist', view: InfiniteHeist },
-        { id: 'settings', path: '/settings', view: Settings }
+    public static ROUTES:Array<Route> = [
+        { id: 'Campaign', path: '/', view: Campaign, icon: 'mdi-plus-circle-multiple-outline', default: true },
+        { id: 'Infinite Heist', path: '/heist', view: InfiniteHeist, icon: 'mdi-all-inclusive' },
+        { id: 'Settings', path: '/settings', view: Settings, icon: 'mdi-cog-transfer' }
     ]
 
     private static NOT_FOUND_ROUTE: Route = { id: '404', path: '/404', view: NotFound }
@@ -25,7 +25,7 @@ export default class Router {
             return Router.ROUTES.find(v => v.hasOwnProperty('default')) || Router.NOT_FOUND_ROUTE
         }
 
-        return Router.ROUTES.find(v => v.path == path.slice(1)) || Router.NOT_FOUND_ROUTE
+        return Router.ROUTES.find(v => v.path == path) || Router.NOT_FOUND_ROUTE
     }
 }
 
@@ -33,5 +33,6 @@ export type Route = {
     id: string,
     path: string,
     view: Object,
+    icon?: string,
     default?: boolean
 }

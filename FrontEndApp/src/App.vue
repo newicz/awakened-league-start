@@ -34,13 +34,15 @@ export default {
   }),
   computed: {
     currentView ():any {
-      return Router.view(this.activeRoute)
+      return Router.view(this.activeRoute.slice(1))
     }
   },
   mounted() {    
     window.addEventListener('hashchange', () => {
       this.activeRoute = window.location.hash
     })
+
+    Router.route('/')
   }
 }
 </script>

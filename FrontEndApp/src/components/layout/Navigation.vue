@@ -8,12 +8,14 @@
         <v-divider></v-divider>
 
         <v-list nav>
-            <v-list-item v-for="item in items" :href="item.route" :key="item.route" :prepend-icon="item.icon" :title="item.title" :value="item.value" :active="activeItem == item.route ? true : false" />
+            <v-list-item v-for="route in routes" :href="'#' + route.path" :key="route.id" :prepend-icon="route.icon" :title="route.id" :value="route.id" :active="activeItem == '#'+route.path ? true : false" />
         </v-list>
     </v-navigation-drawer>
 </template>
 
 <script lang="ts">
+import Router from '../../router/router'
+
 export default {
     data() {
         return {
@@ -23,6 +25,7 @@ export default {
                 { value: 'heist', title: 'Infinite Heist', icon: 'mdi-all-inclusive', route: '#/heist' },
                 { value: 'settings', title: 'Settings', icon: 'mdi-cog-transfer', route: '#/settings' },
             ],
+            routes: Router.ROUTES,
             activeItem: window.location.hash
         }
     },
