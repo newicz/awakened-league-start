@@ -23,7 +23,16 @@
                         <v-form>
                             <v-text-field v-model="poeAccount" variant="underlined" label="POE Account Name" disabled></v-text-field>
                             <v-text-field v-model="poeDir" variant="underlined" label="POE Installation Directory" disabled></v-text-field>
-                            <v-btn class="primary">Reset</v-btn>
+                            <v-btn @click.prevent="resetConfig" class="primary" :disabled="resetConfigConfirmation">Reset</v-btn>
+                            <v-alert v-if="resetConfigConfirmation" color="error" title="Are you sure?" variant="tonal" class="mt-5">
+                                <div class="mt-5">
+                                    This will reset all configuration and make application restart.
+                                </div>
+                                <v-divider class="my-4 bg-light-blue-lighten-4"></v-divider>
+                                <div class="d-flex flex-row align-center justify-space-between">
+                                    <v-btn color="error" @click.prevent="resetConfigConfirmed">I am sure</v-btn>
+                                </div>
+                            </v-alert>
                         </v-form>
                     </div>
                 </v-sheet>
@@ -76,6 +85,7 @@ export default {
         return {
             poeAccount: '',
             poeDir: '',
+            resetConfigConfirmation: false,
         }
     },
     async mounted() {
@@ -83,6 +93,12 @@ export default {
         this.poeDir = await Settings.get('app.poe.directory')
     },
     methods: {
+        resetConfig() {
+            this.resetConfigConfirmation = true
+        },
+        resetConfigConfirmed() {
+            window.appSettings.resetConfig()
+        }
     }
 }
 </script>

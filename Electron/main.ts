@@ -61,6 +61,12 @@ async function createWindow() {
         appConfig.set(key, value)
     });
 
+    ipcMain.handle('resetConfig', (event, key, value) => {
+        fs.unlinkSync(appConfig.path)
+        app.relaunch()
+        app.exit()
+    });
+
     ipcMain.handle('startWatchingPoeLogFile', (event, filePath: string) => {
         fs.watchFile(filePath, function(event, filename) {
             readLastLines.read(filePath, 1).then((line) => {

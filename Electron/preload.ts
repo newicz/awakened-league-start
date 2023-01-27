@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld("browserWindow", {
 contextBridge.exposeInMainWorld('appSettings', {
     getConfig: (key: string) => ipcRenderer.invoke('getConfig', key),
     setConfig: (key: string, value: string) => ipcRenderer.invoke('setConfig', key, value),
+    resetConfig: () => ipcRenderer.invoke('resetConfig'),
 })
 
 contextBridge.exposeInMainWorld('electronApi', {
