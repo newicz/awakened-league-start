@@ -14,5 +14,6 @@ contextBridge.exposeInMainWorld('appSettings', {
 
 contextBridge.exposeInMainWorld('electronApi', {
     startWatchingPoeLogFile: (filePath: string) => ipcRenderer.invoke('startWatchingPoeLogFile', filePath),
-    onPoeLogFileUpdate: (callback: any) => ipcRenderer.on('poe-log-file-updated', callback)
+    onPoeLogFileUpdate: (callback: any) => ipcRenderer.on('poe-log-file-updated', callback),
+    openLink: (link: string) => ipcRenderer.invoke('openLink', link),
 })

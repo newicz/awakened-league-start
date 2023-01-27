@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar prominent class="toolbar">
+    <v-app-bar prominent class="toolbar">
         <v-spacer></v-spacer>
         <div>Account: <strong>{{ account }}</strong></div>
         <v-divider vertical class="ml-10"></v-divider>
@@ -13,10 +13,9 @@
         </v-btn>
         <v-divider vertical class="mr-10"></v-divider>
         <div>Level: <strong>{{ level }}</strong></div>
-        <v-divider vertical class="ml-10 mr-5"></v-divider>
-        <v-btn icon="mdi-heart"></v-btn>
-        <v-btn icon="mdi-magnify"></v-btn>
-    </v-toolbar>
+        <v-divider vertical class="ml-10"></v-divider>
+        <v-btn @click.prevent="openPatreon" prepend-icon="mdi-patreon" class="patreon">Patreon</v-btn>
+    </v-app-bar>
 </template>
 
 <script lang="ts">
@@ -59,6 +58,9 @@ export default {
             store.setCharacters(characters)
 
             this.refreshLoading = false
+        },
+        openPatreon() {
+            window.electronApi.openLink('http://patreon.com')
         }
     }
 }
@@ -68,13 +70,18 @@ export default {
 <style scoped>
 .toolbar {
     background: rgb(10,88,134);
-    background: linear-gradient(90deg, rgba(10,88,134,1) 0%, rgba(1,163,186,1) 25%, rgba(1,117,186,1) 61%, rgba(1,154,186,1) 100%);
+    background: linear-gradient(90deg, rgba(10,88,134,1) 0%, rgba(1,163,186,1) 25%, rgba(1,117,186,1) 61%, rgba(1,154,186,1) 100%) !important;
     color: white;
   }
 .select-container {
     margin-top: 0%;
     width: 250px;
     height: 55px;
+}
+
+.patreon {
+    height: 70px !important;
+    margin: 0 !important;
 }
 
 .custom-loader {

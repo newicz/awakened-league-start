@@ -1,4 +1,4 @@
-import { app, BrowserWindow, BrowserWindowConstructorOptions, ipcMain, screen } from "electron";
+import { app, BrowserWindow, BrowserWindowConstructorOptions, ipcMain, screen, shell } from "electron";
 import path from "path";
 import fs from 'fs';
 import { isDev } from "./config";
@@ -67,6 +67,10 @@ async function createWindow() {
                 mainWindow.webContents.send('poe-log-file-updated', line)
             })
         });
+    });
+
+    ipcMain.handle('openLink', (event, link: string) => {
+        shell.openExternal(link)
     });
 
     // and load the index.html of the app.
