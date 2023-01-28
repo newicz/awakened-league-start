@@ -1,4 +1,4 @@
-import { app, BrowserWindow, BrowserWindowConstructorOptions, ipcMain, screen, shell } from "electron";
+import { app, BrowserWindow, BrowserWindowConstructorOptions, ipcMain, screen, shell, clipboard } from "electron";
 import path from "path";
 import fs from 'fs';
 import { isDev } from "./config";
@@ -115,8 +115,9 @@ async function createWindow() {
         const file = uid + '.json'
         fs.unlinkSync(path.join(buildsDirectory, file))
     })
-    ipcMain.handle('build-activate', () => {
-        console.log('')
+    
+    ipcMain.handle('copy-to-clipboard', (event, clipboardText: string) => {
+        clipboard.writeText(clipboardText)
     })
 
     // and load the index.html of the app.

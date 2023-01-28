@@ -42,6 +42,7 @@
                                 <div class="title"><v-icon class="title-icon">mdi-link-variant</v-icon>Prepare links</div>
                                 <v-list density="compact">
                                     <v-list-item v-for="(sockets, index) in step.sockets" :key="index">
+                                        <v-btn @click.prevent="socketsToClipboard(sockets)" icon="mdi-content-copy" variant="plain" size="x-small" class="mr-2"></v-btn>
                                         <Socket v-for="(socket, sIndex) in sockets" :key="sIndex" :color="socket.color" :text="socket.name" :nodash="sIndex == sockets.length - 1" />
                                     </v-list-item>
                                 </v-list>
@@ -123,6 +124,16 @@ export default {
     methods: {
         routeSettings() {
             Router.route('/settings')
+        },
+        async socketsToClipboard(sockets: Array<any>) {
+            var clipboard = ''
+
+            sockets.forEach(socket => {
+                clipboard = clipboard + '"' + socket.name + '"|'
+            })
+
+            clipboard = clipboard.substring(0, clipboard.length - 1)
+            await window.electronApi.copyToClipboard(clipboard)
         }
     }
 }

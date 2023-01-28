@@ -21,4 +21,6 @@ contextBridge.exposeInMainWorld('electronApi', {
     buildSave: (build: string) => ipcRenderer.invoke('build-save', build),
     buildRemove: (uid: string) => ipcRenderer.invoke('build-remove', uid),
     buildList: () => ipcRenderer.invoke('build-list'),
+
+    copyToClipboard: (clipboardText: string) => ipcRenderer.invoke('copy-to-clipboard', clipboardText),
 })
