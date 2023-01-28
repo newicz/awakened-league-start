@@ -129,7 +129,7 @@ export default {
             var clipboard = ''
 
             sockets.forEach(socket => {
-                clipboard = clipboard + '"' + socket.name + '"|'
+                clipboard = clipboard + socket.name.replaceAll(' ', '\\s') + '|'
             })
 
             clipboard = clipboard.substring(0, clipboard.length - 1)
