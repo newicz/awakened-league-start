@@ -45,9 +45,8 @@
                     <v-chip class="ma-2 uid" color="pink" text-color="white" label>{{ build.uid }}</v-chip>
                     <v-chip class="ma-2 active" color="green" text-color="white" v-if="activeBuild && activeBuild.uid == build.uid" label>ACTIVE</v-chip>
                     <v-card-text  class="d-flex justify-space-between ma-0 pb-0">
-                        <v-btn class="primary">Activate</v-btn>
                         <v-btn v-if="activeBuild && activeBuild.uid == build.uid" disabled class="secondary">Remove</v-btn>
-                        <v-btn v-if="!activeBuild || activeBuild.uid != build.uid" @click.prevent="removeBuild(build.uid)" class="secondary">Remove</v-btn>
+                        <v-btn v-if="!activeBuild || activeBuild.uid != build.uid" @click.prevent="removeBuild(build.uid)" class="secondary" color="red">Remove</v-btn>
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -55,47 +54,6 @@
         
     </v-container>
 </template>
-
-<style scoped>
-.title {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 8px 10px 8px 10px;
-    font-size: small;
-    color: rgba(255,255,255,0.5);
-    text-shadow: 0px 0px 3px #000;
-    letter-spacing: 0.05rem;
-    background-color: rgba(255,255,255,0.05);
-}
-
-.title-icon {
-    margin-right: 10px;
-    color: rgba(255,255,255,0.5);
-    text-shadow: 0px 0px 3px #000;
-}
-
-.uid {
-    font-size: x-small !important;
-    padding: 5px 10px !important;
-    margin: 0 !important;
-    height: auto !important;
-    position: absolute !important;
-    top: 0;
-    right: 0;
-}
-
-.active {
-    font-size: x-small !important;
-    padding: 5px 10px !important;
-    margin: 0 !important;
-    height: auto !important;
-    position: absolute !important;
-    top: 30px;
-    right: 0;
-}
-</style>
 
 <script lang="ts">
 import Settings from '../settings/settings'
@@ -180,3 +138,44 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.title {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 8px 10px 8px 10px;
+    font-size: small;
+    color: rgba(255,255,255,0.5);
+    text-shadow: 0px 0px 3px #000;
+    letter-spacing: 0.05rem;
+    background-color: rgba(255,255,255,0.05);
+}
+
+.title-icon {
+    margin-right: 10px;
+    color: rgba(255,255,255,0.5);
+    text-shadow: 0px 0px 3px #000;
+}
+
+.uid {
+    font-size: x-small !important;
+    padding: 5px 10px !important;
+    margin: 0 !important;
+    height: auto !important;
+    position: absolute !important;
+    top: 0;
+    right: 0;
+}
+
+.active {
+    font-size: x-small !important;
+    padding: 5px 10px !important;
+    margin: 0 !important;
+    height: auto !important;
+    position: absolute !important;
+    top: 30px;
+    right: 0;
+}
+</style>
