@@ -3,7 +3,9 @@
         <v-spacer></v-spacer>
         <div>Account: <strong>{{ account }}</strong></div>
         <v-divider vertical class="ml-10"></v-divider>
-        <div class="select-container"><v-select @update:model-value="select" :items="characters" item-title="name" class="select"></v-select></div>
+        <div class="select-container"><v-select @update:model-value="selectBuild" :items="builds" item-value="uid" item-title="name" class="select"></v-select></div>
+        <v-divider vertical class="ml-10"></v-divider>
+        <div class="select-container"><v-select @update:model-value="selectCharacter" :items="characters" item-title="name" class="select"></v-select></div>
         <v-btn @click="refreshCharacters" stacked prepend-icon="mdi-refresh-circle" :loading="refreshLoading">
             <template v-slot:loader>
                 <span class="custom-loader">
@@ -33,6 +35,9 @@ export default {
         characters() {
             return store.characters
         },
+        builds() {
+            return store.builds
+        },
         level() {
             const character: Character = store.character as Character
             if (!character) { 
@@ -43,8 +48,12 @@ export default {
         }
     },
     methods: {
-        select(characterName: any) {
+        selectCharacter(characterName: any) {
             store.setCharacter(store.characters.find((v) => v.name == characterName) as Character)
+        },
+        selectBuild(uid: string) {
+            const selected: Build = store.builds.find(build => build.uid == uid) as Build
+            store.setActiveBuild(selected)
         },
         async refreshCharacters() {
             this.refreshLoading = true

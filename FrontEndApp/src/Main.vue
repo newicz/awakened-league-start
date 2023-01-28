@@ -77,6 +77,10 @@ export default {
         store.setAccount(account)
         store.setCharacters(characters)
 
+        // Load builds into state
+        const builds = await window.electronApi.buildList()
+        store.setBuilds(builds)
+
         // Start watching file when we know what file to watch from settings
         window.electronApi.startWatchingPoeLogFile(directory + PoeLogService.CLIENT_LOG_PATH)
 

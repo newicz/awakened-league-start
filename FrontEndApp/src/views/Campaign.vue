@@ -1,11 +1,22 @@
 <template>
-    <div>
+    <div v-if="!activeBuild.hasOwnProperty('uid')">
+        <v-alert type="info" theme="dark" icon="mdi-vuetify" variant="outlined" class="mt-16" prominent>
+            <p>You need to select the build first!</p>
+            <p>If you don't have ny builds yet, head out to settings to add a new build.</p>
+            <v-divider class="my-4"></v-divider>
+            <div class="d-flex flex-row align-right">
+                <v-btn @click.prevent="routeSettings" variant="outlined" color="blue-lighten-1" class="mb-2">Go to settings</v-btn>
+              </div>
+        </v-alert>
+    </div>
+
+    <div v-if="activeBuild.hasOwnProperty('uid')">
         <div class="mb-5">   
             <v-progress-linear v-if="progress < 100" :model-value="progress" color="light-blue" height="20" striped></v-progress-linear>
             <v-alert v-if="progress >= 100" color="green" icon="mdi-fire" variant="outlined">You are on fire! You finished the setup for heist, you can go there now!</v-alert>
         </div>
         <v-window hide-delimiters show-arrows="hover" v-model="currentLevel">
-            <v-window-item v-for="step in items" :key="step.level" :value="step.level">
+            <v-window-item v-for="step in activeBuild.steps" :key="step.level.toString()" :value="step.level">
                 <v-timeline side="end">
                     <v-timeline-item size="large" dot-color="rgb(10,88,134)">
                         <template v-slot:icon><small><strong>{{ step.level }}</strong></small></template>
@@ -65,52 +76,11 @@
 
 <script lang="ts">
 import Socket from '../components/Socket.vue'
+import Router from '../router/router'
 import { store } from '../store/store'
 
 export default {
     data: () => ({
-        items: [
-            { 
-                level: 10,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAj0JbItHz1fTLNSU1crYoZqG2pDbRmXlZf0nr29gt-K6QI=',
-                sockets: [ 
-                    [
-                        {name: 'Toxic Rain', color: 'green'}, 
-                        {name: 'Toxic Rain', color: 'green'}, 
-                        {name: 'Toxic Rain', color: 'green'}, 
-                        {name: 'Toxic Rain', color: 'green'}, 
-                        {name: 'Greater Multiple Projectiles', color: 'green'}, 
-                        {name: 'Pierce', color: 'green'}
-                    ], 
-                    [
-                        {name: 'Determination', color: 'red'}, 
-                        {name: 'Hearald of Ice', color: 'green'}, 
-                        {name: 'Enfeeble', color: 'blue'}
-                    ] 
-                ],
-                purchases: [
-                    {name: 'Toxic Rain', color: 'green'},
-                    {name: 'Determination', color: 'red'}, 
-                    {name: 'Hearald of Ice', color: 'green'}
-                ],
-                tips: [
-                    'Remember about +1 chaos bow',
-                    'Make sure to look for nn boots'
-                ]
-            },
-            { 
-                level: 12,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAQHCPQe7iBuJbItHzI0PV9Ms1AwUlNXK1m8XY5ihmobakNtGYdllSCXlZf0nIueva-3vYLBfsHzxSjfiukC9ls=',
-                sockets: []
-            },
-            { level: 18 },
-            { level: 20 },
-            { level: 36 },
-            { level: 42 },
-            { level: 45 },
-            { level: 59 },
-            { level: 63 },
-        ] as Array<any>,
         currentLevel: 0,
         progress: 0,
     }),
@@ -118,8 +88,6 @@ export default {
         Socket
     },
     mounted () {
-        this.currentLevel = this.items[0]?.level || 0
-
     },
     computed : {
         level() {
@@ -130,25 +98,32 @@ export default {
             }
 
             return character.level
+        },
+        activeBuild() {
+            return store.activeBuild as Build
         }
     },
     watch: {
         level(newLevel, oldLevel) {
-            const eligble = this.items.filter((step) => (step.level <= newLevel))
+            const eligble = this.activeBuild.steps.filter((step) => (step.level <= newLevel))
 
             if (eligble.length < 1) {
-                this.currentLevel = this.items[0]?.level || 0
+                this.currentLevel = this.activeBuild.steps[0]?.level || 0
+                this.progress = 0
                 return
             }
 
             const maxLevel = Math.max(...eligble.map(step => step.level))
-            const step = eligble.find(step => step.level == maxLevel)
-            this.progress = (this.items.indexOf(step)/(this.items.length-1)) * 100
+            const step: any = eligble.find(step => step.level == maxLevel)
+            this.progress = (this.activeBuild.steps.indexOf(step)/(this.activeBuild.steps.length-1)) * 100
             console.log(this.progress)
             this.currentLevel = step.level
         },
     },
-    methods:  {
+    methods: {
+        routeSettings() {
+            Router.route('/settings')
+        }
     }
 }
 </script>

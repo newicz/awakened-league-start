@@ -5,8 +5,20 @@ import { isDev } from "./config";
 import { appConfig } from "./ElectronStore/Configuration";
 import AppUpdater from "./AutoUpdate";
 import readLastLines from 'read-last-lines';
+import StringGenerator from "./StringGenerator";
+
+async function setup(buildsDirectory: string) {
+    // Check if build directory exists and create one if not
+    if (!fs.existsSync(buildsDirectory)) {
+        fs.mkdirSync(buildsDirectory)
+    }
+}
 
 async function createWindow() {
+    
+    const buildsDirectory = path.join(app.getPath('userData'), 'poe-builds/')
+    await setup(buildsDirectory);
+
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     const appBounds: any = appConfig.get("setting.appBounds");
     const BrowserWindowOptions: BrowserWindowConstructorOptions = {
@@ -78,6 +90,34 @@ async function createWindow() {
     ipcMain.handle('openLink', (event, link: string) => {
         shell.openExternal(link)
     });
+
+    ipcMain.handle('build-save', (event, build: string) => {
+        const name = StringGenerator.generate(15) + '.json'
+        fs.writeFileSync(path.join(buildsDirectory, name), build)
+    })
+
+    ipcMain.handle('build-list', () => {
+        const buildsList: Array<any> = []
+        const buildsFiles = fs.readdirSync(buildsDirectory);
+
+        buildsFiles.forEach(file => {
+            var data = fs.readFileSync(path.join(buildsDirectory, file), 'utf8');
+            var buildContent = JSON.parse(data)
+            buildContent.uid = file.replace('.json', '')
+            buildsList.push(buildContent)
+        })
+
+        return buildsList
+        
+    })
+
+    ipcMain.handle('build-remove', (event, uid: string) => {
+        const file = uid + '.json'
+        fs.unlinkSync(path.join(buildsDirectory, file))
+    })
+    ipcMain.handle('build-activate', () => {
+        console.log('')
+    })
 
     // and load the index.html of the app.
     // win.loadFile("index.html");

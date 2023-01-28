@@ -6,13 +6,10 @@
                     <div class="title"><v-icon class="title-icon">mdi-help-circle-outline</v-icon>Add new build</div>
                     <div class="pa-10">
                         <v-form>
-                            <!-- <v-textarea variant="underlined" label="Build string"></v-textarea> -->
-                            <v-text-field variant="underlined" label="Build Name"></v-text-field>
-                            <v-select variant="underlined" label="Assendency">
-
-                            </v-select>
-                            <v-file-input variant="underlined" label="File with build"></v-file-input>
-                            <v-btn class="primary">Save</v-btn>
+                            <v-alert v-if="showWrongFormatAlert" density="compact" color="deep-orange" icon="mdi-fire" class="mb-5" type="error" variant="outlined">Wrong format!</v-alert>
+                            <v-textarea v-model="buildString" variant="underlined" label="Build string"></v-textarea>
+                            <!-- <v-file-input variant="underlined" label="File with build"></v-file-input> -->
+                            <v-btn @click.prevent="addBuild" class="primary">Save</v-btn>
                         </v-form>
                     </div>
                 </v-sheet>
@@ -38,16 +35,19 @@
                 </v-sheet>
             </v-col>
             <v-col class="d-flex justify-start flex-wrap">
-                <v-card v-for="i in [1,2,3,4,5,6,7,8,9,10,11]"
-                    :key="i"
+                <v-card v-for="(build, index) in builds"
+                    :key="index"
                     width="350"
-                    height="130"
-                    :title="'Build #'+i"
-                    subtitle="Shadow Trickster"
+                    height="140"
+                    :title="build.name"
+                    :subtitle="build.ascendancy"
                     class="ma-2">
+                    <v-chip class="ma-2 uid" color="pink" text-color="white" label>{{ build.uid }}</v-chip>
+                    <v-chip class="ma-2 active" color="green" text-color="white" v-if="activeBuild && activeBuild.uid == build.uid" label>ACTIVE</v-chip>
                     <v-card-text  class="d-flex justify-space-between ma-0 pb-0">
                         <v-btn class="primary">Activate</v-btn>
-                        <v-btn class="secondary">Remove</v-btn>
+                        <v-btn v-if="activeBuild && activeBuild.uid == build.uid" disabled class="secondary">Remove</v-btn>
+                        <v-btn v-if="!activeBuild || activeBuild.uid != build.uid" @click.prevent="removeBuild(build.uid)" class="secondary">Remove</v-btn>
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -75,10 +75,31 @@
     color: rgba(255,255,255,0.5);
     text-shadow: 0px 0px 3px #000;
 }
+
+.uid {
+    font-size: x-small !important;
+    padding: 5px 10px !important;
+    margin: 0 !important;
+    height: auto !important;
+    position: absolute !important;
+    top: 0;
+    right: 0;
+}
+
+.active {
+    font-size: x-small !important;
+    padding: 5px 10px !important;
+    margin: 0 !important;
+    height: auto !important;
+    position: absolute !important;
+    top: 30px;
+    right: 0;
+}
 </style>
 
 <script lang="ts">
 import Settings from '../settings/settings'
+import { store } from '../store/store'
 
 export default {
     data() {
@@ -86,11 +107,23 @@ export default {
             poeAccount: '',
             poeDir: '',
             resetConfigConfirmation: false,
+            showWrongFormatAlert: false,
+            buildString: '',
+            builds: [] as Array<Build>,
         }
     },
     async mounted() {
         this.poeAccount = await Settings.get('app.poe.account')
         this.poeDir = await Settings.get('app.poe.directory')
+
+        this.builds = await window.electronApi.buildList() as Array<Build>
+        console.log(this.builds)
+        console.log(this.activeBuild)
+    },
+    computed: {
+        activeBuild(): any {
+            return store.activeBuild
+        }
     },
     methods: {
         resetConfig() {
@@ -98,6 +131,51 @@ export default {
         },
         resetConfigConfirmed() {
             window.appSettings.resetConfig()
+        },
+        async addBuild() {
+            this.showWrongFormatAlert = false
+
+            console.log('Validation: start')
+
+            if (!this.buildString || this.buildString == '') {
+                this.showWrongFormatAlert = true
+                console.log('Validation: no string')
+                return
+            }
+
+            try {
+                const build = JSON.parse(this.buildString)
+
+                if (!build.hasOwnProperty('name') || !build.hasOwnProperty('ascendancy') || !build.hasOwnProperty('steps')) {
+                    this.showWrongFormatAlert = true
+                    console.log('Validation: no 1st level properties')
+                    throw Error('Validation: no 2nd level properties')
+                }
+
+                build.steps.forEach((step: any) => {
+                    if (!step.hasOwnProperty('level') || !step.hasOwnProperty('skillTree') || !step.hasOwnProperty('purchases') || !step.hasOwnProperty('sockets') || !step.hasOwnProperty('tips')) {
+                        this.showWrongFormatAlert = true
+                        console.log('Validation: no 2nd level properties')
+                        throw Error('Validation: no 2nd level properties')
+                    }
+                });
+
+                // save build
+                window.electronApi.buildSave(this.buildString)
+                this.buildString = ''
+
+                this.builds = await window.electronApi.buildList() as Array<Build>
+                store.setBuilds(this.builds)
+
+            } catch (err: any) {
+                this.showWrongFormatAlert = true
+                return
+            }
+        },
+        async removeBuild (uid: string) {
+            window.electronApi.buildRemove(uid)
+            this.builds = await window.electronApi.buildList() as Array<Build>
+            store.setBuilds(this.builds)
         }
     }
 }
