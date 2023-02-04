@@ -1,91 +1,84 @@
-let obj = 
+export default JSON.stringify(
 {
-    name: 'Toxic Rain Raider',
+    name: 'Toxic Rain Raider Test',
     ascendancy: 'Raider',
     steps: [
             { 
-                level: 10,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAj0JbItHz1fTLNSU1crYoZqG2pDbRmXlZf0nr29gt-K6QI=',
+                level: 0,
+                skillTree: 'https://www.pathofexile.com/fullscreen-passive-skill-tree/3.20.2/AAAABgIBBAHRokCv6_T4AAA=',
                 sockets: [ 
                     [
-                        {name: 'Toxic Rain', color: 'green'}, 
-                        {name: 'Toxic Rain', color: 'green'}, 
-                        {name: 'Toxic Rain', color: 'green'}, 
-                        {name: 'Toxic Rain', color: 'green'}, 
-                        {name: 'Greater Multiple Projectiles', color: 'green'}, 
-                        {name: 'Pierce', color: 'green'}
-                    ], 
-                    [
-                        {name: 'Determination', color: 'red'}, 
-                        {name: 'Hearald of Ice', color: 'green'}, 
-                        {name: 'Enfeeble', color: 'blue'}
-                    ] 
+                        {name: 'Caustic Arrow', color: 'green'},
+                        {name: 'Chance to Poison', color: 'green'},
+                    ],
                 ],
                 purchases: [
-                    {name: 'Toxic Rain', color: 'green'},
-                    {name: 'Determination', color: 'red'}, 
-                    {name: 'Hearald of Ice', color: 'green'}
                 ],
                 tips: [
-                    'Remember about +1 chaos bow',
-                    'Make sure to look for nn boots'
+                    '',
+                ]
+            },
+            { 
+                level: 4,
+                skillTree: 'https://www.pathofexile.com/fullscreen-passive-skill-tree/3.20.2/AAAABgIBCAHRoSKiQKfUr-vEovT4_sgAAA==',
+                sockets: [ 
+                    [
+                        {name: 'Caustic Arrow', color: 'green'},
+                        {name: 'Mirage Archer', color: 'green'},
+                    ],
+                    [
+                        {name: 'Shrapnel Ballista', color: 'green'},
+                        {name: 'Chance to Poison', color: 'green'},
+                    ],
+                ],
+                purchases: [
+                ],
+                tips: [
+                    '',
+                ]
+            },
+            { 
+                level: 8,
+                skillTree: 'https://www.pathofexile.com/fullscreen-passive-skill-tree/3.20.2/AAAABgIBDQHRDHN9daEiokCn1K_ru-PEotN-9Pj-uv7IAAA=',
+                sockets: [ 
+                    [
+                        {name: 'Caustic Arrow', color: 'green'},
+                        {name: 'Mirage Archer', color: 'green'},
+                        {name: 'Void Manipulation', color: 'green'},
+                    ],
+                    [
+                        {name: 'Shrapnel Ballista', color: 'green'},
+                        {name: 'Chance to Poison', color: 'green'},
+                    ],
+                ],
+                purchases: [
+                ],
+                tips: [
+                    '',
                 ]
             },
             { 
                 level: 12,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAQHCPQe7iBuJbItHzI0PV9Ms1AwUlNXK1m8XY5ihmobakNtGYdllSCXlZf0nIueva-3vYLBfsHzxSjfiukC9ls=',
-                purchases : [],
-                sockets: [],
-                tips: [],
+                skillTree: 'https://www.pathofexile.com/fullscreen-passive-skill-tree/3.20.2/AAAABgIBFQHRA6IKmwxzFSBxoX11j0-hIqJAp9Sv67UIu-PEotN-73r0-Paj_rr-yAAA',
+                sockets: [ 
+                    [
+                        {name: 'Caustic Arrow', color: 'green'},
+                        {name: 'Mirage Archer', color: 'green'},
+                        {name: 'Void Manipulation', color: 'green'},
+                    ],
+                    [
+                        {name: 'Toxic Rain', color: 'green'},
+                        {name: 'Void Manipulation', color: 'green'},
+                        {name: 'Efficacy', color: 'blue'},
+                        {name: 'Ballista Totem', color: 'red'}
+                    ],
+                ],
+                purchases: [
+                ],
+                tips: [
+                    '',
+                ]
             },
-            { 
-                level: 18,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAQHCPQe7iBuJbItHzI0PV9Ms1AwUlNXK1m8XY5ihmobakNtGYdllSCXlZf0nIueva-3vYLBfsHzxSjfiukC9ls=',
-                purchases : [],
-                sockets: [],
-                tips: [], 
-            },
-            { 
-                level: 20,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAQHCPQe7iBuJbItHzI0PV9Ms1AwUlNXK1m8XY5ihmobakNtGYdllSCXlZf0nIueva-3vYLBfsHzxSjfiukC9ls=',
-                purchases : [],
-                sockets: [],
-                tips: [], 
-            },
-            { 
-                level: 36,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAQHCPQe7iBuJbItHzI0PV9Ms1AwUlNXK1m8XY5ihmobakNtGYdllSCXlZf0nIueva-3vYLBfsHzxSjfiukC9ls=',
-                purchases : [],
-                sockets: [],
-                tips: [], 
-            },
-            { 
-                level: 42,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAQHCPQe7iBuJbItHzI0PV9Ms1AwUlNXK1m8XY5ihmobakNtGYdllSCXlZf0nIueva-3vYLBfsHzxSjfiukC9ls=',
-                purchases : [],
-                sockets: [],
-                tips: [], 
-            },
-            { 
-                level: 45,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAQHCPQe7iBuJbItHzI0PV9Ms1AwUlNXK1m8XY5ihmobakNtGYdllSCXlZf0nIueva-3vYLBfsHzxSjfiukC9ls=',
-                purchases : [],
-                sockets: [],
-                tips: [], 
-            },
-            { 
-                level: 59,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAQHCPQe7iBuJbItHzI0PV9Ms1AwUlNXK1m8XY5ihmobakNtGYdllSCXlZf0nIueva-3vYLBfsHzxSjfiukC9ls=',
-                purchases : [],
-                sockets: [],
-                tips: [], 
-            },
-            { 
-                level: 63,
-                skillTree: 'https://poeskilltree.com/?v=3.20.1#AAAABAMAAAQHCPQe7iBuJbItHzI0PV9Ms1AwUlNXK1m8XY5ihmobakNtGYdllSCXlZf0nIueva-3vYLBfsHzxSjfiukC9ls=',
-                purchases : [],
-                sockets: [],
-                tips: [], 
-            },
-    ]
+    ],
 }
+)

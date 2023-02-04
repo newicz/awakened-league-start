@@ -67,9 +67,9 @@
                     </v-timeline-item>
                 </v-timeline>
                 <v-sheet class="mt-10" elevation="5" style="height: 800px">
-                    <iframe class="iframe" id="st" :src="step.skillTree" frameborder="0" style="width: 100%; height: 800px; border: 1px solid #292929"></iframe>
+                    <webview class="iframe" id="st" :src="step.skillTree"></webview>
                 </v-sheet>
-                <div class="credits">Credit to www.poeskilltree.com for Skill Tree used in this app.</div>
+                <div class="credits">Credit to www.pathofexile.com for Skill Tree used in this app.</div>
             </v-window-item>
         </v-window>
     </div>
@@ -151,6 +151,12 @@ export default {
     text-shadow: 0px 0px 3px #000;
     letter-spacing: 0.05rem;
     background-color: rgba(255,255,255,0.05);
+}
+
+.iframe {
+    width: 100%; 
+    height: 800px; 
+    border: 1px solid #292929;
 }
 
 .title-icon {
