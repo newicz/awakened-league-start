@@ -13,7 +13,7 @@
     <div v-if="activeBuild.hasOwnProperty('uid')">
         <div class="mb-5">   
             <v-progress-linear v-if="progress < 100" :model-value="progress" color="light-blue" height="20" striped></v-progress-linear>
-            <v-alert v-if="progress >= 100" color="green" icon="mdi-fire" variant="outlined">You are on fire! You finished the setup for heist, you can go there now!</v-alert>
+            <v-alert v-if="progress >= 100" color="green" icon="mdi-fire" variant="outlined">You are on fire! You finished the setup the build leveling!</v-alert>
         </div>
         <v-window hide-delimiters show-arrows="hover" v-model="currentLevel">
             <v-window-item v-for="step in activeBuild.steps" :key="step.level.toString()" :value="step.level">
@@ -42,7 +42,6 @@
                                 <div class="title"><v-icon class="title-icon">mdi-link-variant</v-icon>Prepare links</div>
                                 <v-list density="compact">
                                     <v-list-item v-for="(sockets, index) in step.sockets" :key="index">
-                                        <v-btn @click.prevent="socketsToClipboard(sockets)" icon="mdi-content-copy" variant="plain" size="x-small" class="mr-2"></v-btn>
                                         <Socket v-for="(socket, sIndex) in sockets" :key="sIndex" :color="socket.color" :text="socket.name" :nodash="sIndex == sockets.length - 1" />
                                     </v-list-item>
                                 </v-list>
@@ -124,16 +123,6 @@ export default {
     methods: {
         routeSettings() {
             Router.route('/settings')
-        },
-        async socketsToClipboard(sockets: Array<any>) {
-            var clipboard = ''
-
-            sockets.forEach(socket => {
-                clipboard = clipboard + socket.name.replaceAll(' ', '\\s') + '|'
-            })
-
-            clipboard = clipboard.substring(0, clipboard.length - 1)
-            await window.electronApi.copyToClipboard(clipboard)
         }
     }
 }

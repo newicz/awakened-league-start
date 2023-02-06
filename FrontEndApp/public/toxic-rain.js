@@ -1,4 +1,4 @@
-export default JSON.stringify(
+console.log(JSON.stringify(
 {
     name: 'Toxic Rain Raider Test',
     ascendancy: 'Raider',
@@ -9,7 +9,7 @@ export default JSON.stringify(
                 sockets: [ 
                     [
                         {name: 'Caustic Arrow', color: 'green'},
-                        {name: 'Chance to Poison', color: 'green'},
+                        {name: 'Pierce', color: 'green'},
                     ],
                 ],
                 purchases: [
@@ -32,6 +32,7 @@ export default JSON.stringify(
                     ],
                 ],
                 purchases: [
+                    {name: 'Chance to Poison', color: 'green'}
                 ],
                 tips: [
                     '',
@@ -81,4 +82,4 @@ export default JSON.stringify(
             },
     ],
 }
-)
+))
